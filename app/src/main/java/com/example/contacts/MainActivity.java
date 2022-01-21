@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         checkPermission();
 
-        refreshAdapter(contacts);
+        refreshAdapter(getContactList());
 
     }
 
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getContactList() {
+    private ArrayList<Contact> getContactList() {
         Uri uri = ContactsContract.Contacts.CONTENT_URI;
         String sort = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME+" ASC";
         Cursor cursor = getContentResolver().query(uri,null,null,null,sort);
@@ -80,15 +81,15 @@ public class MainActivity extends AppCompatActivity {
 
         if(cursor.getCount() > 0){
             while (cursor.moveToNext()){
-                String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-                String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                @SuppressLint("Range") String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+                @SuppressLint("Range") String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
                 Uri uriPhone = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
                 String selection = ContactsContract.CommonDataKinds.Phone.CONTACT_ID+" =?";
 
                 Cursor phoneCursor = getContentResolver().query(uriPhone,null,selection,new String[]{id},null);
 
                 if(phoneCursor.moveToNext()){
-                    String number = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                    @SuppressLint("Range") String number = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                     contacts.add(new Contact(R.drawable.contact,name,number));
                     pNumber.add(number);
                     phoneCursor.close();
@@ -98,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
             cursor.close();
 
         }
+        return contacts;
 
 
     }

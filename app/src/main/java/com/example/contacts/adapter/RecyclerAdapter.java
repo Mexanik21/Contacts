@@ -1,13 +1,9 @@
 package com.example.contacts.adapter;
 
-import android.Manifest;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.contacts.MainActivity;
 import com.example.contacts.R;
 import com.example.contacts.model.Contact;
 
@@ -51,7 +43,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Contact contact = contacts.get(position);
         if(holder instanceof ContactViewHolder){
             ImageView iv_profile = ((ContactViewHolder) holder).iv_profile;
@@ -63,7 +55,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             tv_phoneNumber.setText(contact.phoneNumber);
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
-
                 @Override
                 public void onClick(View v) {
                     String uri = "tel:" + tv_phoneNumber.getText();
